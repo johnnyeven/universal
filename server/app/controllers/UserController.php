@@ -36,12 +36,12 @@ class UserController extends BaseController {
 		if(!empty($username) && !empty($password))
 		{
 			if(Auth::attempt(array(
-				'username'		=>	$username,
-				'password'		=>	$password
+				'name'		=>	$username,
+				'pass'		=>	$password
 			)))
 			{
 				$user = Auth::user();
-				$user->login_at = time();
+				$user->lasttime = time();
 				$user->save();
 
 				return Response::json(array(
@@ -74,16 +74,16 @@ class UserController extends BaseController {
 
 		if(!empty($username) && !empty($password))
 		{
-			$userCount = User::where('username', '=', $username)->count();
+			$userCount = User::where('name', '=', $username)->count();
 			if(empty($userCount))
 			{
 				$time = time();
 				$user = new User;
-				$user->username = $username;
-				$user->password = Hash::make($password);
+				$user->name = $username;
+				$user->pass = Hash::make($password);
 				$user->email = '';
-				$user->login_at = $time;
-				$user->register_at = $time;
+				$user->lasttime = $time;
+				$user->regtime = $time;
 				$user->save();
 
 				return Response::json(array(
@@ -112,59 +112,6 @@ class UserController extends BaseController {
 	public function start()
 	{
 		
-	}
-
-	public function sync()
-	{
-		$input = Input::only('guid', 'job', 'profession_icon', 'level', 'mission', 'nickname', 'device_id', 'ad_id');
-
-		if(!empty($input['guid']))
-		{
-			if(empty($input['job']) && empty($input['profession_icon'])
-				&& empty($input['level']) && empty($input['mission'])
-				&& empty($input['nickname']) && empty($input['device_id'])
-				&& empty($input['ad_id']))
-			{
-				return Response::json(array(
-					'success'	=>	0,
-					'code'		=>	UserController::USER_SYNC_ERROR_NO_CHANGE
-				));
-			}
-			else
-			{
-				$user = User::find(intval($input['guid']));
-				if(!empty($user))
-				{
-					foreach($input as $key => $value)
-					{
-						if(!empty($value) && $key != 'guid')
-						{
-							$user->$key = $value;
-						}
-					}
-					$user->save();
-
-					return Response::json(array(
-						'success'	=>	1,
-						'code'		=>	UserController::USER_SYNC_SUCCESS
-					));
-				}
-				else
-				{
-					return Response::json(array(
-						'success'	=>	0,
-						'code'		=>	UserController::USER_SYNC_ERROR_NOT_EXIST
-					));
-				}
-			}
-		}
-		else
-		{
-			return Response::json(array(
-				'success'	=>	0,
-				'code'		=>	UserController::USER_SYNC_ERROR_NO_PARAM
-			));
-		}
 	}
 
 }

@@ -67,6 +67,11 @@ App::down(function()
 	return Response::make("Be right back!", 503);
 });
 
+Auth::extend('universal', function($app)
+{
+	return new \Illuminate\Auth\UniversalUserProvider(new \Illuminate\Hashing\UniversalHasher, 'User');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Require The Filters File

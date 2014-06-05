@@ -25,5 +25,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public $timestamps = false;
 
-	
+	public function getAuthPassword()
+	{
+		return $this->pass;
+	}
 }
