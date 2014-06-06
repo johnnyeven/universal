@@ -12,7 +12,13 @@
 */
 
 Route::get('/user_login', 'UserController@login');
-
 Route::get('/user_register', 'UserController@register');
 
-Route::get('/user_sync', 'UserController@sync');
+
+Route::group(array('before'	=>	'auth'), function()
+{
+	Route::get('/role_get', 'RoleController@getRoles');
+	Route::get('/role_create', 'RoleController@createRole');
+
+	Route::get('/planet_get', 'PlanetController@get');
+});

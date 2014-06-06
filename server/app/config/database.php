@@ -63,6 +63,17 @@ return array(
 			'prefix'    => '',
 		),
 
+		'gamedb' => array(
+			'driver'    => 'mysql',
+			'host'      => 'localhost',
+			'database'  => 'universal_db',
+			'username'  => 'root',
+			'password'  => '84@41%%wi96^4',
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+		),
+
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',

@@ -43,7 +43,10 @@ Route::filter('auth', function()
 		}
 		else
 		{
-			return Redirect::guest('login');
+			return Response::json(array(
+				'success'		=>	0,
+				'code'			=>	401
+			));
 		}
 	}
 });
