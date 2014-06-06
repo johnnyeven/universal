@@ -52,6 +52,15 @@ return array(
 			'prefix'   => '',
 		),
 
+		'mongodb' => array(
+			'driver'   => 'mongodb',
+			'host'     => 'localhost',
+			'port'     => 27017,
+			'username' => '',
+			'password' => '',
+			'database' => 'universal'
+		),
+
 		'accountdb' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',

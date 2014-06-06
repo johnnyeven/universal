@@ -19,6 +19,7 @@ Route::group(array('before'	=>	'auth'), function()
 {
 	Route::get('/role_get', 'RoleController@getRoles');
 	Route::get('/role_create', 'RoleController@createRole');
+	Route::get('/role_choose', 'RoleController@chooseRole');
 
 	Route::get('/planet_get', 'PlanetController@get');
 });

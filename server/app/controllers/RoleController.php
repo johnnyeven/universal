@@ -15,29 +15,6 @@ class RoleController extends BaseController {
 	|
 	*/
 
-	public function getRoles()
-	{
-		$account_id = Input::get('account_id');
-
-		if(!empty($account_id))
-		{
-			$roles = Role::where('account_id', $account_id)->get();
-			
-			return Response::json(array(
-				'success'		=>	1,
-				'code'			=>	ConstConfig::GET_ROLE_SUCCESS,
-				'result'		=>	$roles
-			));
-		}
-		else
-		{
-			return Response::json(array(
-				'success'		=>	0,
-				'code'			=>	ConstConfig::GET_ROLE_ERROR_NO_PARAM
-			));
-		}
-	}
-
 	public function createRole()
 	{
 		$name = Input::get('name');
@@ -73,6 +50,72 @@ class RoleController extends BaseController {
 			return Response::json(array(
 				'success'		=>	0,
 				'code'			=>	ConstConfig::CREATE_ROLE_ERROR_NO_PARAM
+			));
+		}
+	}
+
+	public function getRoles()
+	{
+		$account_id = Input::get('id');
+
+		if(!empty($account_id))
+		{
+			$roles = Role::where('account_id', $account_id)->get();
+			
+			return Response::json(array(
+				'success'		=>	1,
+				'code'			=>	ConstConfig::GET_ROLE_SUCCESS,
+				'result'		=>	$roles
+			));
+		}
+		else
+		{
+			return Response::json(array(
+				'success'		=>	0,
+				'code'			=>	ConstConfig::GET_ROLE_ERROR_NO_PARAM
+			));
+		}
+	}
+
+	public function chooseRole()
+	{
+		$role_id = Input::get('id');
+
+		if(!empty($role_id))
+		{
+			$role = Role::find($role_id);
+			if(!empty($role))
+			{
+				$account = Auth::user();
+				if($account->id == $role->account_id)
+				{
+					$cookie = Cookie::make('role_id', $role->id);
+					return Response::json(array(
+						'success'		=>	1,
+						'code'			=>	ConstConfig::CHOOSE_ROLE_SUCCESS
+					))->withCookie($cookie);
+				}
+				else
+				{
+					return Response::json(array(
+						'success'		=>	0,
+						'code'			=>	ConstConfig::CHOOSE_ROLE_ERROR_NOT_MATCH
+					));
+				}
+			}
+			else
+			{
+				return Response::json(array(
+					'success'		=>	0,
+					'code'			=>	ConstConfig::CHOOSE_ROLE_ERROR_NOT_EXIST
+				));
+			}
+		}
+		else
+		{
+			return Response::json(array(
+				'success'		=>	0,
+				'code'			=>	ConstConfig::GET_ROLE_ERROR_NO_PARAM
 			));
 		}
 	}
