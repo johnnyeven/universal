@@ -101,12 +101,13 @@ DROP TABLE IF EXISTS `universal_db`.`buildings` ;
 
 CREATE TABLE IF NOT EXISTS `universal_db`.`buildings` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `role_id` BIGINT NOT NULL,
+  `planet_id` BIGINT NOT NULL,
   `building_id` BIGINT NOT NULL,
   `name` CHAR(24) NOT NULL,
   `level` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `role_id` (`role_id` ASC))
+  INDEX `role_id` (`planet_id` ASC),
+  INDEX `planet_id` (`planet_id` ASC))
 ENGINE = InnoDB;
 
 

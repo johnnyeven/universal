@@ -39,11 +39,11 @@ class RoleController extends BaseController {
 				$planet->role_id = $role->id;
 				foreach($planetConfig as $key => $value)
 				{
-					if($value == '{random_value}')
+					if($value === '{random_value}')
 					{
 						if($key == 'name')
 						{
-							$planet->$key;
+							$planet->$key = PlanetController::generatePlanetName();
 						}
 						elseif($key == 'position_starfield')
 						{
@@ -73,7 +73,8 @@ class RoleController extends BaseController {
 				return Response::json(array(
 					'success'		=>	1,
 					'code'			=>	ConstConfig::CREATE_ROLE_SUCCESS,
-					'result'		=>	$role
+					'result'		=>	$role,
+					'planet'		=>	$planet
 				));
 			}
 			else
