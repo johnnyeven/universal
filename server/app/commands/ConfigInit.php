@@ -65,6 +65,25 @@ class ConfigInit extends Command {
 		$mongoBasicConfig->galaxyMaxCount = $galaxyMaxCount;
 		$mongoBasicConfig->indexMaxCount = $indexMaxCount;
 		$mongoBasicConfig->save();
+
+		for($i = 0; $i < $starfieldMaxCount; $i++)
+		{
+			for($j = 0; $j < $constellationMaxCount; $j++)
+			{
+				for($k = 0; $k < $galaxyMaxCount; $k++)
+				{
+					for($m = 0; $m < $indexMaxCount; $m++)
+					{
+						$position = new MongoPlanetPositionCache;
+						$position->starfield = $i;
+						$position->constellation = $j;
+						$position->galaxy = $k;
+						$position->index = $m;
+						$position->save();
+					}
+				}
+			}
+		}
 		$this->info('done basic_config.xls');
 	}
 

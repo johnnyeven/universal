@@ -27,9 +27,48 @@ class RoleController extends BaseController {
 				$role = new Role;
 				$role->account_id = Auth::user()->id;
 				$role->name = $name;
-				$role->planet_count = 0;
+				$role->planet_count = 1;
 				$role->planet_count_max = 1;
 				$role->save();
+
+				$basicConfig = MongoBasicConfig::first();
+				$planetConfig = json_decode($basicConfig->planet);
+				$count = MongoPlanetPositionCache::count();
+				$position = MongoPlanetPositionCache::skip(rand(0, $count - 1))->first();
+				$planet = new Planet;
+				$planet->role_id = $role->id;
+				foreach($planetConfig as $key => $value)
+				{
+					if($value == '{random_value}')
+					{
+						if($key == 'name')
+						{
+							$planet->$key;
+						}
+						elseif($key == 'position_starfield')
+						{
+							$planet->$key = mt_rand(0, $position->starfield);
+						}
+						elseif($key == 'position_constellation')
+						{
+							$planet->$key = mt_rand(0, $position->constellation);
+						}
+						elseif($key == 'position_galaxy')
+						{
+							$planet->$key = mt_rand(0, $position->galaxy);
+						}
+						elseif($key == 'position_index')
+						{
+							$planet->$key = mt_rand(0, $position->index);
+						}
+					}
+					else
+					{
+						$planet->$key = $value;
+					}
+				}
+				$planet->save();
+				$position->delete();
 
 				return Response::json(array(
 					'success'		=>	1,
