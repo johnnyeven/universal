@@ -1,6 +1,6 @@
 <?php
 
-class Planet extends Eloquent
+class Building extends Eloquent
 {
 	protected $table = 'buildings';
 	protected $connection = 'gamedb';
